@@ -184,13 +184,6 @@ def solve(puzzle):
     #it just eliminates impossible possibilities from the list
     #by the end, this should leave one list left - the solution for that band
     def getUpdatedBand(band, posses):
-        #dp
-        # print("getting updated band")
-        # print("the band")
-        # print(band)
-        # if len(posses)<5:
-        #     print("small possibilities")
-        #     print(posses)
         length = len(posses[0])
         
         #list of indicies and values that need to be checked
@@ -218,17 +211,7 @@ def solve(puzzle):
                         
             #the list is reversed so that when removing possibilities,
             #the indexes dont change as we traverse the loop
-            #dp
-            # print("toRemove")
-            # print(toRemove)
-            # print("posses")
-            # print(posses)
-            # print("len")
-            # print(len(posses))
             for index in reversed(toRemove):
-                #dp
-                # print("index", index)
-                # print("len", len(posses))
                 posses.pop(index)
         
         #check to see if the new info helped
@@ -264,8 +247,6 @@ def solve(puzzle):
         for pair in info:
             updatedBand[pair[0]] = pair[1]
         
-        print("returning the following:")
-        print(updatedBand)
         return updatedBand
                     
     #allPosses is short for "all possibilities"
@@ -343,9 +324,12 @@ def solve(puzzle):
     return board
         
     
-        
-print(solve([[[5], [9], [2, 1, 1, 1, 2], [1, 1, 1, 1, 1], [11],
-[1], [1], [1], [1], [1, 1], [3]], [[3], [2, 1], [1, 2], [3, 1], [2, 1], [11], [2, 1, 1], [3, 1, 2], [1, 2], [2, 1], [3]]]))
+puzzles = {'umbrella' :
+[[[5], [9], [2, 1, 1, 1, 2], [1, 1, 1, 1, 1], [11],
+[1], [1], [1], [1], [1, 1], [3]],
+[[3], [2, 1], [1, 2], [3, 1], [2, 1], [11], 
+[2, 1, 1], [3, 1, 2], [1, 2], [2, 1], [3]]]}      
+print(solve(puzzles['umbrella']))
     
     
     
