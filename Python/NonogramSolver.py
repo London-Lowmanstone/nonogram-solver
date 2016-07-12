@@ -2,7 +2,7 @@
 #Jadiker
 
 #When written in Lua, I had encapulated the solve function in a class, but here 
-#I decided to make it a fucntion like it should be.
+#I decided to make it a function like it should be.
 
 #puzzle is a list containing two lists, rPuz and cPuz.
 #rPuz and cPuz are (also) lists which contain 
@@ -184,6 +184,12 @@ def solve(puzzle):
     #it just eliminates impossible possibilities from the list
     #by the end, this should leave one list left - the solution for that band
     def getUpdatedBand(band, posses):
+        #dp
+        print("getting updated band")
+        print("the band")
+        print(band)
+        print("possibilities")
+        print(posses)
         length = len(posses[0])
         
         #list of indicies and values that need to be checked
@@ -245,17 +251,22 @@ def solve(puzzle):
         #fill in the info it knows has to be there
         for pair in info:
             updatedBand[pair[0]] = pair[1]
+        
+        print("returning the following:")
+        print(updatedBand)
         return updatedBand
                     
     #allPosses is short for "all possibilities"
     def update(rowOrCol, toCheck, allPosses): 
         #the next band to check
-        checkBandIndex =  toCheck[rowOrCol].pop()
-        #If theres no band there, just return.
-        #This can happen if one of the rows or column is empty but the other is
-        #not (the calling function only checks if both of them are empty)
-        if not checkBandIndex:
+        try:
+            checkBandIndex =  toCheck[rowOrCol].pop()
+        except IndexError:
+            #If theres no band there, just return.
+            #This can happen if only one of the rows or column is empty
+            #(the calling function simply checks if both of them are empty)
             return
+        
         
         posses = allPosses[rowOrCol][checkBandIndex]
         band = getBand(rowOrCol, checkBandIndex)
@@ -327,7 +338,8 @@ def solve(puzzle):
         
     
         
-print(solve([[[1, 1], [3]], [[2], [1], [2]]]))
+print(solve([[[5], [9], [2, 1, 1, 1, 2], [1, 1, 1, 1, 1], [11],
+[1], [1], [1], [1], [1, 1], [3]], [[3], [2, 1], [1, 2], [3, 1], [2, 1], [11], [2, 1, 1], [3, 1, 2], [1, 2], [2, 1], [3]]]))
     
     
     
