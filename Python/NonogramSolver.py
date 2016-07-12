@@ -184,7 +184,7 @@ def solve(puzzle):
     #it just eliminates impossible possibilities from the list
     #by the end, this should leave one list left - the solution for that band
     def getUpdatedBand(band, posses):
-        length = len(posses[1])
+        length = len(posses[0])
         
         #list of indicies and values that need to be checked
         #(info that is certain)
@@ -215,17 +215,42 @@ def solve(puzzle):
         
         #check to see if the new info helped
         #compare all the possibilities and see what they have in common
-        #the band it returns is only the stuff they all have in common
+        #the band it returns has only the stuff they all have in common
+        #and then 2s to fill the rest
         #this is the workhorse of the algorithm that actually solves it.
         info = []
-        for i in range(length)
+        #go through each slot in each of the possibilities
+        for i in range(length):
+            #the value it's checking to see if all of them equal
+            curVal = None
+            #if all the values have matched the initial so far
+            good = True
+            #check to make sure each possibility has the same value at index i
+            for poss in posses:
+                val = poss[i]
+                #set initial value to look for if one has not been set yet
+                if curVal==None:
+                    curVal = val
+                #check to make sure it's the same as the rest
+                else:
+                    if val!=curVal:
+                        good = False
+                        break
+            #actual info that can be used to solve the puzzle
+            if good:
+                info.append((i, curVal))
         
-            
-    
+        #initiate it filled with 2s cause it doesn't know anything    
+        updatedBand = [2]*length
+        #fill in the info it knows has to be there
+        for pair in info:
+            updatedBand[pair[0]] = pair[1]
+        return updatedBand
+                    
     #allPosses is short for "all possibilities"
     def update(rowOrCol, toCheck, allPosses): 
         #the next band to check
-        checkBandIndex =  toCheck.pop()
+        checkBandIndex =  toCheck[rowOrCol].pop()
         #If theres no band there, just return.
         #This can happen if one of the rows or column is empty but the other is
         #not (the calling function only checks if both of them are empty)
@@ -290,13 +315,19 @@ def solve(puzzle):
     #it alternates because filling in a row only affects columns and vice versa
     rowOrCol = 1
     while len(cCheck)>0 and len(rCheck)>0: #there's stuff left to check
+        #dp
+        print("new loop")
+        print("toCheck")
+        print(toCheck)
+        print("board")
+        print(board)
         update(rowOrCol, toCheck, possibilities)
         rowOrCol = oppositeRowOrCol(rowOrCol)
     return board
         
     
         
-        
+print(solve([[[1, 1], [3]], [[2], [1], [2]]]))
     
     
     
