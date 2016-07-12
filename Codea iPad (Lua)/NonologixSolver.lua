@@ -259,6 +259,8 @@ function NonologixSolver:generatePosses(puz, length)
         while true do
             if addToStart[updateIndex]<space-1 then
                 addToStart[updateIndex] = addToStart[updateIndex] + 1
+                -- looking back on this, I think this catch really should be
+                -- updateIndex<chainAmt
                 if updateIndex<space then -- just a small time-saver catch
                     local val = addToStart[updateIndex]
                     for i=updateIndex+1,chainAmt do
