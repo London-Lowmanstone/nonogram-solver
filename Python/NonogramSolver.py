@@ -185,11 +185,12 @@ def solve(puzzle):
     #by the end, this should leave one list left - the solution for that band
     def getUpdatedBand(band, posses):
         #dp
-        print("getting updated band")
-        print("the band")
-        print(band)
-        print("possibilities")
-        print(posses)
+        # print("getting updated band")
+        # print("the band")
+        # print(band)
+        # if len(posses)<5:
+        #     print("small possibilities")
+        #     print(posses)
         length = len(posses[0])
         
         #list of indicies and values that need to be checked
@@ -213,10 +214,21 @@ def solve(puzzle):
                     #if the possibility doesn't have the needed value
                     if poss[check[0]]!=check[1]:
                         toRemove.append(index)
+                        break
                         
             #the list is reversed so that when removing possibilities,
             #the indexes dont change as we traverse the loop
-            for index in toRemove:
+            #dp
+            # print("toRemove")
+            # print(toRemove)
+            # print("posses")
+            # print(posses)
+            # print("len")
+            # print(len(posses))
+            for index in reversed(toRemove):
+                #dp
+                # print("index", index)
+                # print("len", len(posses))
                 posses.pop(index)
         
         #check to see if the new info helped
@@ -326,12 +338,6 @@ def solve(puzzle):
     #it alternates because filling in a row only affects columns and vice versa
     rowOrCol = 1
     while len(cCheck)>0 and len(rCheck)>0: #there's stuff left to check
-        #dp
-        print("new loop")
-        print("toCheck")
-        print(toCheck)
-        print("board")
-        print(board)
         update(rowOrCol, toCheck, possibilities)
         rowOrCol = oppositeRowOrCol(rowOrCol)
     return board
