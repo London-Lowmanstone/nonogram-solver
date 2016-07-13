@@ -322,15 +322,99 @@ def solve(puzzle):
         update(rowOrCol, toCheck, possibilities)
         rowOrCol = oppositeRowOrCol(rowOrCol)
     return board
+
+def displayBoard(board):
+    import colorama as color
+    '''
+    Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
+    Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
+    Style: DIM, NORMAL, BRIGHT, RESET_ALL
+    '''
+    color.init()
+    for row in board:
+        line = color.Fore.BLUE+""
+        for val in row:
+            if val==1:
+                c = color.Back.BLACK
+            elif val==0:
+                c = color.Back.WHITE
+            else:
+                c = color.Back.RED
+            line+=(c+str(val)+color.Back.RESET+" ")
+        print(line+color.Style.RESET_ALL)
+    
+    
+
+def GUI():
+    def main():
+        def getInput(recordList):
+            while True:
+                info = raw_input().split()
+                for i, val in enumerate(info):
+                    try:
+                        info[i] = int(val)
+                    except ValueError:
+                        return
+                recordList.append(info)
+            
+            
+        puzzle = [[], []]
         
-    
-puzzles = {'umbrella' :
-[[[5], [9], [2, 1, 1, 1, 2], [1, 1, 1, 1, 1], [11],
-[1], [1], [1], [1], [1, 1], [3]],
-[[3], [2, 1], [1, 2], [3, 1], [2, 1], [11], 
-[2, 1, 1], [3, 1, 2], [1, 2], [2, 1], [3]]]}      
-print(solve(puzzles['umbrella']))
-    
+        listOrPuzzle = raw_input("Do you have a full list to type in, or a \
+puzzle to type in by hand? (list/puzzle) ").strip().lower()
+        if listOrPuzzle=="list":
+            while True:
+                print("Please enter the list. (Make sure it's only one line)")
+                try:
+                    import ast
+                    puzzle = ast.literal_eval(raw_input())
+                    break
+                except:
+                    print("Sorry, that list didn't work for me. Restarting...")
+                    main()
+                    return
+        elif listOrPuzzle=="puzzle":
+            print("Please enter in the rows to your puzzle, where the numbers \
+are separated by spaces.\nHit enter when finished with a row.\nWhen done with \
+all rows, type anything with a letter or symbol in it, then hit enter.")
+            getInput(puzzle[0])
+            print("Now enter in the columns to the puzzle, following the same \
+pattern.")
+            getInput(puzzle[1])
+            print("Here's the list I was able to make:")
+            print(puzzle)
+        else:
+            print("Sorry, I didn't quite get that.")
+            main()
+            return
+            
+        try:
+            solution = solve(puzzle)
+            print("Here's the solution:")
+            displayBoard(solution)
+        except:
+            print("Sorry, I couldn't solve that. Restarting...")
+            main()
+            return
+            
+        while True:
+            playAgain = raw_input("Would you like to solve another one?(y/n) ")\
+                        .strip().lower()
+            if playAgain == "y" or playAgain == "yes":
+                main() #so it doesn't go through the intro again.
+                return
+            elif playAgain=="n" or playAgain=="no":
+                return
+            else:
+                print("Sorry, I didn't quite get that.")
+        
+    def intro():
+        print("Welcome to the nonogram solver!")
+        main()
+        
+    intro()
+
+GUI()
     
     
 
