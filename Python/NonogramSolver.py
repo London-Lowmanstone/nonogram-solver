@@ -1,7 +1,7 @@
 #7/9/2016
 #Jadiker
 
-#When written in Lua, I had encapulated the solve function in a class, but here 
+#When written in Lua, I had encapsulated the solve function in a class, but here 
 #I decided to make it a function like it should be.
 
 #puzzle is a list containing two lists, rPuz and cPuz.
